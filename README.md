@@ -11,3 +11,6 @@ https://github.com/gotzl/pyacc
 
 It has also has a script that helped me in data structures visualization in Json:
 https://github.com/rinatz/ctypes_json
+
+
+(yeah, it has some gotzl's project variables in it cuz i'll implement enums)
