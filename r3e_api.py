@@ -34,9 +34,28 @@ def main():
     printR3Evar(_obj, 'TrackName')
     printR3Evar(_obj, 'LayoutName')
 
+    printR3Evar(_obj, 'SessionType')
+    printR3Evar(_obj, 'SessionPhase')
 
-    printR3Evar(_obj.Player, 'GameSimulationTicks')
-    # quit()
+    printR3Evar(_obj, 'SessionType')
+    printR3Evar(_obj, 'SessionPhase')
+    printR3Evar(_obj, 'PitWindowStatus')
+    printR3Evar(_obj, 'FinishStatus')
+    printR3Evar(_obj, 'ControlType')
+    printR3Evar(_obj, 'TireTypeFront')
+    printR3Evar(_obj, 'TireTypeRear')
+    printR3Evar(_obj, 'TireSubtypeFront')
+    printR3Evar(_obj, 'TireSubtypeRear')
+    printR3Evar(_obj, 'TireOnMtrl')
+
+    printR3Evar(_obj.Player, 'SuspensionDeflection')
+    printR3Evar(_obj.Player, 'SuspensionVelocity')
+
+
+
+
+
+    quit()
 
 
     printR3Evar(_obj.DriverData[0].DriverInfo, 'Name')
@@ -153,17 +172,17 @@ def printR3Evar(_obj, at):
         try:
             FL, FR, RL, RR = getattr(obj, at)
             pp( '{} ['.format(str(at)) )
-            pp( '{:<5} {:<30} {:<30}'.format('', FL, FR) )
-            pp( '{:<5} {:<30} {:<30}'.format('', RL, RR) )
+            pp( '{:<5} {:<30} {:<30}'.format('', FL.__str__(), FR.__str__()) )
+            pp( '{:<5} {:<30} {:<30}'.format('', RL.__str__(), RR.__str__()) )
             pp( ']' )
         except Exception as e:
             pp(e)
 
     elif at in strings:
-        pp( '{} : {}'.format( at.ljust(30), str( getattr(obj, at) ) ) )
+        pp( '{} : {}'.format( at.ljust(30), getattr(obj, at).__str__() ) )
 
     else:
-        pp( '{} : {}'.format( at.ljust(30), getattr(obj, at) ) )
+        pp( '{} : {}'.format( at.ljust(30), getattr(obj, at).__str__() ) )
 
 
 if __name__ == '__main__':

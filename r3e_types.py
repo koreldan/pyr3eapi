@@ -67,184 +67,116 @@ class StructureWithEnums(LittleEndianStructure):
     __repr__ = __str__
 
 
-class ACC_FLAG_TYPE(IntEnum):
-    ACC_NO_FLAG = 0
-    ACC_BLUE_FLAG = 1
-    ACC_YELLOW_FLAG = 2
-    ACC_BLACK_FLAG = 3
-    ACC_WHITE_FLAG = 4
-    ACC_CHECKERED_FLAG = 5
-    ACC_PENALTY_FLAG = 6
-    ACC_GREEN_FLAG = 7
-    ACC_ORANGE_FLAG = 8
-
-class ACC_PENALTY_TYPE(IntEnum):
-    ACC_None = 0
-    ACC_DriveThrough_Cutting = 1
-    ACC_StopAndGo_10_Cutting = 2
-    ACC_StopAndGo_20_Cutting = 3
-    ACC_StopAndGo_30_Cutting = 4
-    ACC_Disqualified_Cutting = 5
-    ACC_RemoveBestLaptime_Cutting = 6
-    ACC_DriveThrough_PitSpeeding = 7
-    ACC_StopAndGo_10_PitSpeeding = 8
-    ACC_StopAndGo_20_PitSpeeding = 9
-    ACC_StopAndGo_30_PitSpeeding = 10
-    ACC_Disqualified_PitSpeeding = 11
-    ACC_RemoveBestLaptime_PitSpeeding = 12
-    ACC_Disqualified_IgnoredMandatoryPit = 13
-    ACC_PostRaceTime = 14
-    ACC_Disqualified_Trolling = 15
-    ACC_Disqualified_PitEntry = 16
-    ACC_Disqualified_PitExit = 17
-    ACC_Disqualified_Wrongway = 18
-    ACC_DriveThrough_IgnoredDriverStint = 19
-    ACC_Disqualified_IgnoredDriverStint = 20
-    ACC_Disqualified_ExceededDriverStintLimit = 21
-
-class ACC_SESSION_TYPE(IntEnum):
-    ACC_UNKNOWN = -1
-    ACC_PRACTICE = 0
-    ACC_QUALIFY = 1
-    ACC_RACE = 2
-    ACC_HOTLAP = 3
-    ACC_TIMEATTACK = 4
-    ACC_DRIFT = 5
-    ACC_DRAG = 6
-    ACC_HOTSTINT = 7
-    ACC_HOTSTINTSUPERPOLE = 8
-
-class ACC_STATUS(IntEnum):
-    ACC_OFF = 0
-    ACC_REPLAY = 1
-    ACC_LIVE = 2
-    ACC_PAUSE = 3
-
-class ACC_WHEELS_TYPE(IntEnum):
-    ACC_FrontLeft = 0
-    ACC_FrontRight = 1
-    ACC_RearLeft = 2
-    ACC_RearRight = 3
-
-class ACC_TRACK_GRIP_STATUS(IntEnum):
-    ACC_GREEN = 0
-    ACC_FAST = 1
-    ACC_OPTIMUM = 2
-    ACC_GREASY = 3
-    ACC_DAMP = 4
-    ACC_WET = 5
-    ACC_FLOODED = 6
-
-class ACC_RAIN_INTENSITY(IntEnum):
-    ACC_NO_RAIN = 0
-    ACC_DRIZZLE = 1
-    ACC_LIGHT_RAIN = 2
-    ACC_MEDIUM_RAIN = 3
-    ACC_HEAVY_RAIN = 4
-    ACC_THUNDERSTORM = 5
+class Session(IntEnum):
+    Unavailable = -1
+    Practice = 0
+    Qualify = 1
+    Race = 2
+    Warmup = 3
 
 
-class SPageFileGraphic(StructureWithEnums):
-    _fields_ = [
-        ("packetId", c_int),
-        ("status", c_int),
-        ("session", c_int),
-        ("currentTime", ShortWord),
-        ("lastTime", ShortWord),
-        ("bestTime", ShortWord),
-        ("split", ShortWord),
-        ("completedLaps", c_int),
-        ("position", c_int),
-        ("iCurrentTime", c_int),
-        ("iLastTime", c_int),
-        ("iBestTime", c_int),
-        ("sessionTimeLeft", c_float),
-        ("distanceTraveled", c_float),
-        ("isInPit", c_int),
-        ("currentSectorIndex", c_int),
-        ("lastSectorTime", c_int),
-        ("numberOfLaps", c_int),
-        ("tyreCompound", Word),
-        ("replayTimeMultiplier", c_float),
-        ("normalizedCarPosition", c_float),
-        ("activeCars", c_int),
-        ("carCoordinates", c_float * 3 * 60),
-        ("carID", c_int * 60),
-        ("playerCarID", c_int),
-        ("penaltyTime", c_float),
-        ("flag", c_int),
-        ("penalty", c_int),
-        ("idealLineOn", c_int),
-        ("isInPitLane", c_int),
-        ("surfaceGrip", c_float),
-        ("mandatoryPitDone", c_int),
-        ("windSpeed", c_float),
-        ("windDirection", c_float),
-        ("isSetupMenuVisible", c_int),
-        ("mainDisplayIndex", c_int),
-        ("secondaryDisplayIndex", c_int),
-        ("TC", c_int),
-        ("TCCut", c_int),
-        ("EngineMap", c_int),
-        ("ABS", c_int),
-        ("fuelXLap", c_int),
-        ("rainLights", c_int),
-        ("flashingLights", c_int),
-        ("lightsStage", c_int),
-        ("exhaustTemperature", c_float),
-        ("wiperLV", c_int),
-        ("DriverStintTotalTimeLeft", c_int),
-        ("DriverStintTimeLeft", c_int),
-        ("rainTyres", c_int),
-        ("sessionIndex", c_int),
-        ("usedFuel", c_float),
-        ("deltaLapTime", ShortWord),
-        ("iDeltaLapTime", c_int),
-        ("estimatedLapTime", ShortWord),
-        ("iEstimatedLapTime", c_int),
-        ("isDeltaPositive", c_int),
-        ("iSplit", c_int),
-        ("isValidLap", c_int),
-        ("fuelEstimatedLaps", c_float),
-        ("trackStatus", Word),
-        ("missingMandatoryPits", c_int),
-        ("Clock", c_float),
-        ("directionLightsLeft", c_int),
-        ("directionLightsRight", c_int),
-        ("GlobalYellow", c_int),
-        ("GlobalYellow1", c_int),
-        ("GlobalYellow2", c_int),
-        ("GlobalYellow3", c_int),
-        ("GlobalWhite", c_int),
-        ("GlobalGreen", c_int),
-        ("GlobalChequered", c_int),
-        ("GlobalRed", c_int),
-        ("mfdTyreSet", c_int),
-        ("mfdFuelToAdd", c_float),
-        ("mfdTyrePressureLF", c_float),
-        ("mfdTyrePressureRF", c_float),
-        ("mfdTyrePressureLR", c_float),
-        ("mfdTyrePressureRR", c_float),
-        ("trackGripStatus", c_int),
-        ("rainIntensity", c_int),
-        ("rainIntensityIn10min", c_int),
-        ("rainIntensityIn30min", c_int),
-        ("currentTyreSet", c_int),
-        ("strategyTyreSet", c_int),
-        ("gapAhead", c_int),
-        ("gapBehind", c_int),
-    ]
-    _map = {
-        "status": ACC_STATUS,
-        "session": ACC_SESSION_TYPE,
-        "flag": ACC_FLAG_TYPE,
-        "penalty": ACC_PENALTY_TYPE,
-        "trackGripStatus": ACC_TRACK_GRIP_STATUS,
-        "rainIntensity": ACC_RAIN_INTENSITY,
-        "rainIntensityIn10min": ACC_RAIN_INTENSITY,
-        "rainIntensityIn30min": ACC_RAIN_INTENSITY,
-    }
+class SessionPhase(IntEnum):
+    Unavailable = -1
+    Garage = 1
+    Gridwalk = 2
+    Formation = 3
+    Countdown = 4
+    Green = 5
+    Checkered = 6
 
+
+class Control(IntEnum):
+    Unavailable = -1
+    Player = 0
+    AI = 1
+    Remote = 2
+    Replay = 3
+
+
+class PitWindow(IntEnum):
+    Unavailable = -1
+    Disabled = 0
+    Closed = 1
+    Open = 2
+    Stopped = 3
+    Completed = 4
+
+
+class PitStopStatus(IntEnum):
+    Unavailable = -1
+    UnservedTwoTyres = 0
+    UnservedFourTyres = 1
+    Served = 2
+
+
+class FinishStatus(IntEnum):
+    Unavailable = -1
+    null = 0
+    Finished = 1
+    DNF = 2
+    DNQ = 3
+    DNS = 4
+    DQ = 5
+
+
+class SessionLengthFormat(IntEnum):
+    Unavailable = -1
+    TimeBased = 0
+    LapBased = 1
+    TimeAndLapBased = 2
+
+
+class PitMenuSelection(IntEnum):
+    Unavailable = -1
+    Preset = 0
+
+    # Pit menu actions
+    Penalty = 1
+    Driverchange = 2
+    Fuel = 3
+    Fronttires = 4
+    Reartires = 5
+    Frontwing = 6
+    Rearwing = 7
+    Suspension = 8
+
+    # Pit menu buttons
+    ButtonTop = 9
+    ButtonBottom = 10
+
+    # Pit menu nothing selected
+    Max = 11
+
+
+class TireType(IntEnum):
+    Unavailable = -1
+    Option = 0
+    Prime = 1
+
+
+class TireSubtype(IntEnum):
+    Unavailable = -1
+    Primary = 0
+    Alternate = 1
+    Soft = 2
+    Medium = 3
+    Hard = 4
+
+
+class MtrlType(IntEnum):
+    Unavailable = -1
+    null = 0
+    Tarmac = 1
+    Grass = 2
+    Dirt = 3
+    Gravel = 4
+    Rumble = 5
+
+
+class EngineType(IntEnum):
+    Combustion = 0
+    Electric = 1
+    Hybrid = 2
 
 
 
@@ -279,7 +211,7 @@ class CutTrackPenalties(LittleEndianStructure):
     ]
 
 
-class DriverData(LittleEndianStructure):
+class DriverData(StructureWithEnums):
     _pack_ = 1
     _fields_ = [
         # DriverInfo
@@ -323,6 +255,14 @@ class DriverData(LittleEndianStructure):
         ('Unused2', c_float ),
         ('Unused3', c_float ),
     ]
+
+    _map = {
+        'FinishStatus' : FinishStatus ,
+        'TireTypeFront' : TireType ,
+        'TireTypeRear' : TireType ,
+        'TireSubtypeFront' : TireSubtype ,
+        'TireSubtypeRear' : TireSubtype ,
+    }
 
 
 class PlayerData(LittleEndianStructure):
@@ -370,7 +310,7 @@ class PlayerData(LittleEndianStructure):
 
 
 
-class Shared(LittleEndianStructure):
+class Shared(StructureWithEnums):
     _pack_ = 1
     _fields_ = [
         ('VersionMajor', c_int ),
@@ -383,7 +323,6 @@ class Shared(LittleEndianStructure):
         ('GameUsingVr', c_int ),
 
         ('GameUnused1', c_int ),
-        # offset issue, was working on 06/07/2022 ... no more on 07/07/2022  ¯\_(ツ)_/¯
 
         ('Player' , PlayerData ),
 
@@ -614,3 +553,16 @@ class Shared(LittleEndianStructure):
         ('DriverData', DriverData * 128),
 
     ]
+
+    _map = {
+        'SessionType' : Session,
+        'SessionPhase' : SessionPhase,
+        'PitWindowStatus' : PitWindow ,
+        'FinishStatus' : FinishStatus ,
+        'ControlType' : Control ,
+        'TireTypeFront' : TireType ,
+        'TireTypeRear' : TireType ,
+        'TireSubtypeFront' : TireSubtype ,
+        'TireSubtypeRear' : TireSubtype ,
+        'TireOnMtrl' : MtrlType ,
+    }
