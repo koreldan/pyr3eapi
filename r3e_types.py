@@ -250,6 +250,7 @@ class SPageFileGraphic(StructureWithEnums):
 
 
 class DriverInfo(LittleEndianStructure):
+    _pack_ = 1
     _fields_ = [
         ('Name', LongWord),
         ('CarNumber', c_int),
@@ -268,6 +269,7 @@ class DriverInfo(LittleEndianStructure):
 
 
 class CutTrackPenalties(LittleEndianStructure):
+    _pack_ = 1
     _fields_ = [
         ('DriveThrough', c_int) ,
         ('StopAndGo', c_int) ,
@@ -278,6 +280,7 @@ class CutTrackPenalties(LittleEndianStructure):
 
 
 class DriverData(LittleEndianStructure):
+    _pack_ = 1
     _fields_ = [
         # DriverInfo
         ('DriverInfo', DriverInfo),
@@ -324,6 +327,7 @@ class DriverData(LittleEndianStructure):
 
 class PlayerData(LittleEndianStructure):
     # PlayerData (high precision)
+    _pack_ = 1
     _fields_ = [
         ('GameSimulationTicks' , c_int ),
         ('GameSimulationTime' , c_double ),
@@ -367,6 +371,7 @@ class PlayerData(LittleEndianStructure):
 
 
 class Shared(LittleEndianStructure):
+    _pack_ = 1
     _fields_ = [
         ('VersionMajor', c_int ),
         ('VersionMinor', c_int ),
@@ -376,9 +381,11 @@ class Shared(LittleEndianStructure):
         ('GameInMenus', c_int ),
         ('GameInReplay', c_int ),
         ('GameUsingVr', c_int ),
-        ('GameUnused1', c_int ),
 
-        ('Player', PlayerData ),
+        ('GameUnused1', c_int ),
+        # offset issue, was working on 06/07/2022 ... no more on 07/07/2022  ¯\_(ツ)_/¯
+
+        ('Player' , PlayerData ),
 
         ('TrackName' , LongWord ),
         ('LayoutName' , LongWord ),

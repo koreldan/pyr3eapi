@@ -3,6 +3,7 @@ import mmap
 import ctypes
 import re
 import json
+import copy
 
 import orjson as oj
 
@@ -20,131 +21,149 @@ def main():
     CD = CDataJSONEncoder()
     CDdefault = CD.default
 
-    # A - print a nested json about all data
+    #pp( _obj.__dict__ )
     #te = oj.dumps(_obj, default=CDdefault, option=oj.OPT_INDENT_2)
-    #pp(te)
+    #pp('{}'.format(te.decode('utf-8')))
+    #tes = json.dumps(_obj, cls=CDataJSONEncoder, indent=2)
+    #pp(tes)
 
 
-    # B - per variable prints
-    # single session -> practice -> 3 drivers + you
-    pp(_obj.TrackName.__str__())
-    pp(_obj.LayoutName.__str__())
+    #pp(_obj.Player)
 
-    pp(_obj.DriverData[0].DriverInfo.Name.__str__())
-    pp(_obj.DriverData[1].DriverInfo.Name.__str__())
-    pp(_obj.DriverData[2].DriverInfo.Name.__str__())
-    pp(_obj.DriverData[3].DriverInfo.Name.__str__())
-    pp(_obj.DriverData[4].DriverInfo.Name.__str__()) # empty driver
+
+    printR3Evar(_obj, 'TrackName')
+    printR3Evar(_obj, 'LayoutName')
+
+
+    printR3Evar(_obj.Player, 'GameSimulationTicks')
+    # quit()
+
+
+    printR3Evar(_obj.DriverData[0].DriverInfo, 'Name')
+    printR3Evar(_obj.DriverData[1].DriverInfo, 'Name')
+    printR3Evar(_obj.DriverData[2].DriverInfo, 'Name')
+    printR3Evar(_obj.DriverData[3].DriverInfo, 'Name')
+    printR3Evar(_obj.DriverData[4].DriverInfo, 'Name')
 
     quit()
 
-    # python print to view all data
+
+
     for at in dir(_obj):
         reg = re.search("^[a-zA-Z].*", str(at))
         if reg:
-
-            vects = [
-                'Position',
-                'Velocity',
-                'LocalVelocity',
-                'Acceleration',
-                'LocalAcceleration',
-                'Orientation',
-                'Rotation',
-                'AngularAcceleration',
-                'AngularVelocity',
-                'LocalAngularVelocity',
-                'LocalGforce',
-                'SectorStartFactors',
-                'RaceSessionLaps',
-                'RaceSessionMinutes',
-                'SectorYellow',
-                'SectorTimesSessionBestLap',
-                'SectorTimesBestSelf',
-                'SectorTimesPreviousSelf',
-                'SectorTimesCurrentSelf',
-                'BestIndividualSectorTimeSelf',
-                'BestIndividualSectorTimeLeader',
-                'BestIndividualSectorTimeLeaderClass',
-                'CarCgLocation',
-                'CarOrientation',
-                'LocalAcceleration',
-            ]
-
-            vect4 = [
-                'SuspensionDeflection' ,
-                'SuspensionVelocity' ,
-                'Camber' ,
-                'RideHeight' ,
-                'TireRps',
-                'TireSpeed',
-                'TireGrip',
-                'TireWear',
-                'TireFlatspot',
-                'TirePressure',
-                'TireDirt',
-                'BrakePressure',
-                'TireOnMtrl',
-                'TireLoad',
-            ]
-
-            strings = [
-                'TrackName',
-                'LayoutName',
-                'veh_Name',
-                'PlayerName',
-                'drv_Name',
-            ]
-
-            structs = [
-                'VehicleInfo',
-                'DriverInfo',
-                'Penalties',
-            ]
-
-            if at == 'DriverData':
-                for dd in getattr(_obj, at):
-                    pp(dd)
-                    for a in dir(dd):
-                        reg = re.search("^[a-zA-Z].*", str(a))
-                        if reg:
-                            pp( '{} : {}'.format( '{}_{}'.format(at,a).ljust(40), getattr(dd, a) ) )
+            printR3Evar(_obj, at)
 
 
-            if at in structs:
-                tobj = getattr(_obj, at)
-                for a in dir(tobj):
-                    reg = re.search("^[a-zA-Z].*", str(a))
-                    if reg:
-                        pp( '{} : {}'.format( '{}_{}'.format(at,a).ljust(40), getattr(tobj, a) ) )
+def printR3Evar(_obj, at):
+
+    obj = copy.deepcopy(_obj)
+
+    vects = [
+        'Position',
+        'Velocity',
+        'LocalVelocity',
+        'Acceleration',
+        'LocalAcceleration',
+        'Orientation',
+        'Rotation',
+        'AngularAcceleration',
+        'AngularVelocity',
+        'LocalAngularVelocity',
+        'LocalGforce',
+        'SectorStartFactors',
+        'RaceSessionLaps',
+        'RaceSessionMinutes',
+        'SectorYellow',
+        'SectorTimesSessionBestLap',
+        'SectorTimesBestSelf',
+        'SectorTimesPreviousSelf',
+        'SectorTimesCurrentSelf',
+        'BestIndividualSectorTimeSelf',
+        'BestIndividualSectorTimeLeader',
+        'BestIndividualSectorTimeLeaderClass',
+        'CarCgLocation',
+        'CarOrientation',
+        'LocalAcceleration',
+    ]
+
+    vect4 = [
+        'SuspensionDeflection' ,
+        'SuspensionVelocity' ,
+        'Camber' ,
+        'RideHeight' ,
+        'TireRps',
+        'TireSpeed',
+        'TireGrip',
+        'TireWear',
+        'TireFlatspot',
+        'TirePressure',
+        'TireDirt',
+        'BrakePressure',
+        'TireOnMtrl',
+        'TireLoad',
+    ]
+
+    strings = [
+        'TrackName',
+        'LayoutName',
+        'veh_Name',
+        'PlayerName',
+        'drv_Name',
+    ]
+
+    structs = [
+        'VehicleInfo',
+        'Player',
+        'DriverInfo',
+        'Penalties',
+    ]
 
 
-            elif at in vects:
-                try:
-                    x, y, z = getattr(_obj, at)
-                    pp( '{} ['.format(str(at)) )
-                    pp( '{:<5} {:<23} {:<23} {:<23}'.format('', x,y,z) )
-                    pp( ']' )
-                except Exception as e:
-                    pp(v)
-                    pp(e)
 
-            elif at in vect4:
-                try:
-                    FL, FR, RL, RR = getattr(_obj, at)
-                    pp( '{} ['.format(str(at)) )
-                    pp( '{:<5} {:<30} {:<30}'.format('', FL, FR) )
-                    pp( '{:<5} {:<30} {:<30}'.format('', RL, RR) )
-                    pp( ']' )
-                except Exception as e:
-                    pp(v)
-                    pp(e)
+    if at == 'DriverData':
+        for dd in getattr(obj, at):
+            pp(dd)
+            for a in dir(dd):
+                reg = re.search("^[a-zA-Z].*", str(a))
+                if reg:
+                    printR3Evar(dd, a)
+                    #pp( '{} : {}'.format( '{}_{}'.format(at,a).ljust(40), getattr(dd, a) ) )
 
-            elif at in strings:
-                pp( '{} : {}'.format( at.ljust(30), str( getattr(_obj, at) ) ) )
 
-            else:
-                pp( '{} : {}'.format( at.ljust(30), getattr(_obj, at) ) )
+    if at in structs:
+        tobj = getattr(obj, at)
+        for a in dir(tobj):
+            reg = re.search("^[a-zA-Z].*", str(a))
+            if reg:
+                printR3Evar(tobj, a)
+                #pp( '{} : {}'.format( '{}_{}'.format(at,a).ljust(40), getattr(tobj, a) ) )
+
+
+    elif at in vects:
+        try:
+            x, y, z = getattr(obj, at)
+            pp( '{} ['.format(str(at)) )
+            pp( '{:<5} {:<23} {:<23} {:<23}'.format('', x,y,z) )
+            pp( ']' )
+        except Exception as e:
+            pp(e)
+
+    elif at in vect4:
+        try:
+            FL, FR, RL, RR = getattr(obj, at)
+            pp( '{} ['.format(str(at)) )
+            pp( '{:<5} {:<30} {:<30}'.format('', FL, FR) )
+            pp( '{:<5} {:<30} {:<30}'.format('', RL, RR) )
+            pp( ']' )
+        except Exception as e:
+            pp(e)
+
+    elif at in strings:
+        pp( '{} : {}'.format( at.ljust(30), str( getattr(obj, at) ) ) )
+
+    else:
+        pp( '{} : {}'.format( at.ljust(30), getattr(obj, at) ) )
 
 
 if __name__ == '__main__':
