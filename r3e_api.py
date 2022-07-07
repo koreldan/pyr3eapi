@@ -52,17 +52,21 @@ def main():
     printR3Evar(_obj.Player, 'SuspensionVelocity')
 
 
-
-
-
-    quit()
-
-
-    printR3Evar(_obj.DriverData[0].DriverInfo, 'Name')
-    printR3Evar(_obj.DriverData[1].DriverInfo, 'Name')
-    printR3Evar(_obj.DriverData[2].DriverInfo, 'Name')
-    printR3Evar(_obj.DriverData[3].DriverInfo, 'Name')
-    printR3Evar(_obj.DriverData[4].DriverInfo, 'Name')
+    #printR3Evar(_obj.DriverData[0].DriverInfo, 'Name')
+    pp('----------------------------------------------   PLAYER 1')
+    printR3Evar(_obj.DriverData[0], 'DriverInfo')
+    #printR3Evar(_obj.DriverData[1].DriverInfo, 'Name')
+    pp('----------------------------------------------   PLAYER 2')
+    printR3Evar(_obj.DriverData[1], 'DriverInfo')
+    #printR3Evar(_obj.DriverData[2].DriverInfo, 'Name')
+    pp('----------------------------------------------   PLAYER 3')
+    printR3Evar(_obj.DriverData[2], 'DriverInfo')
+    #printR3Evar(_obj.DriverData[3].DriverInfo, 'Name')
+    pp('----------------------------------------------   PLAYER 4')
+    printR3Evar(_obj.DriverData[3], 'DriverInfo')
+    #printR3Evar(_obj.DriverData[4].DriverInfo, 'Name')
+    pp('----------------------------------------------   PLAYER 5 ( empty )')
+    printR3Evar(_obj.DriverData[4], 'DriverInfo')
 
     quit()
 
